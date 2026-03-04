@@ -1,7 +1,7 @@
 package com.library.ui.views;
 
 import com.library.backend.Book;
-import com.library.backend.MockBookRepository;
+import com.library.backend.BookService;
 import com.library.security.Roles;
 import com.library.ui.components.BookForm;
 import com.library.ui.components.ViewToolbar;
@@ -18,13 +18,12 @@ import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.security.AuthenticationContext;
 import jakarta.annotation.security.PermitAll;
-import org.springframework.security.core.userdetails.UserDetails;
 
 
 @Route("books")
 @PermitAll
 public class BookDetails extends VerticalLayout implements HasUrlParameter<Long> {
-    private final MockBookRepository bookRepo;
+    private final BookService bookService;
     private final AuthenticationContext authContext;
 
     private Book book;
@@ -36,8 +35,8 @@ public class BookDetails extends VerticalLayout implements HasUrlParameter<Long>
 
     private final ViewToolbar toolbar = new ViewToolbar("Book Details", backBtn);
 
-    public BookDetails(MockBookRepository bookRepo, AuthenticationContext authContext) {
-        this.bookRepo = bookRepo;
+    public BookDetails(BookService bookService, AuthenticationContext authContext) {
+        this.bookService = bookService;
         this.authContext = authContext;
 
         configureLayout();
@@ -46,7 +45,7 @@ public class BookDetails extends VerticalLayout implements HasUrlParameter<Long>
 
     @Override
     public void setParameter(BeforeEvent beforeEvent, Long bookId) {
-        bookRepo.findById(bookId).ifPresentOrElse(
+        bookService.findBookById(bookId).ifPresentOrElse(
             (b) -> {
                 this.book = b;
                 toolbar.setTitle(b.getTitle());
@@ -72,7 +71,7 @@ public class BookDetails extends VerticalLayout implements HasUrlParameter<Long>
     }
 
     private void saveBook(Book book) {
-        bookRepo.save(book);
+        bookService.saveBook(book);
         Notification.show("Book saved").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
         setIsEditing(false);
     }
@@ -82,7 +81,7 @@ public class BookDetails extends VerticalLayout implements HasUrlParameter<Long>
     }
 
     private void deleteBook(Book book) {
-        bookRepo.delete(book);
+        bookService.deleteBook(book);
         getUI().ifPresent(ui -> ui.navigate("books?message=deleted"));
     }
 

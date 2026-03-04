@@ -1,6 +1,7 @@
 package com.library.ui.views;
 
-import com.library.backend.MockBookRepository;
+import com.library.backend.BookRepository;
+import com.library.backend.BookService;
 import com.library.security.Roles;
 import com.library.ui.components.BookGrid;
 import com.library.ui.components.SearchBar;
@@ -19,14 +20,14 @@ import jakarta.annotation.security.PermitAll;
 @Menu(order = 1, icon = "vaadin:book", title = "Catalogue")
 @PermitAll
 public class Books extends VerticalLayout implements BeforeEnterObserver {
-    private final MockBookRepository bookRepo;
+    private final BookService bookService;
     private final AuthenticationContext authContext;
 
-    public Books(MockBookRepository bookRepo, AuthenticationContext authContext) {
-        this.bookRepo = bookRepo;
+    public Books(BookService bookService, AuthenticationContext authContext) {
+        this.bookService = bookService;
         this.authContext = authContext;
 
-        BookGrid grid = new BookGrid(this.bookRepo.findAll());
+        BookGrid grid = new BookGrid(this.bookService.findAllBooks());
 
         // navigate to book details view when clicking a row in the grid
         grid.addItemClickListener(event -> {

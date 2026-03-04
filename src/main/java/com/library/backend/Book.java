@@ -1,13 +1,21 @@
 package com.library.backend;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Book {
-    private static Long numBooks = 0L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private final Long id;
+    private String title;
+    private String author;
+    private String isbn;
 
-    public Book() {
-        this.id = ++numBooks;
-    }
+    public Book() {}
 
     public Book(String title, String author, String isbn) {
         this();
@@ -15,10 +23,6 @@ public class Book {
         this.author = author;
         this.isbn = isbn;
     }
-
-    private String title;
-    private String author;
-    private String isbn;
 
     public Long getId() {
         return id;
@@ -48,16 +52,4 @@ public class Book {
         this.isbn = isbn;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null || !getClass().isAssignableFrom(obj.getClass())) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-
-        Book other = (Book) obj;
-        return getId() != null && getId().equals(other.getId());
-    }
 }
