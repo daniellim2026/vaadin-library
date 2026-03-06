@@ -67,11 +67,11 @@ public class BookForm extends VerticalLayout {
         });
     }
 
-    private void resetForm() {
+    // public methods to be called from views or other components
+    public void resetForm() {
         binder.readBean(book);
     }
 
-    // public methods to be called from views or other components
     public void setBook(Book book) {
         this.book = book;
         resetForm();
