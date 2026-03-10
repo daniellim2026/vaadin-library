@@ -34,11 +34,11 @@ public class SecurityConfiguration {
     @Bean
     public UserDetailsManager userDetailsService() {
         UserDetails user = User.withUsername("user")
-                .password("{bcrypt}user")
+                .password("$2a$10$yIgkZHQUlX2En18XVvLeTeYa125IqenCMDjMOkSMe46xNOoy/1djm")
                 .roles(Roles.USER)
                 .build();
         UserDetails admin = User.withUsername("admin")
-                .password("{bcrypt}admin")
+                .password("$2a$10$yIgkZHQUlX2En18XVvLeTeYa125IqenCMDjMOkSMe46xNOoy/1djm")
                 .roles(Roles.ADMIN)
                 .build();
         return new InMemoryUserDetailsManager(user, admin);
