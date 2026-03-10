@@ -1,6 +1,5 @@
 package com.library.ui.views;
 
-import com.library.backend.Book;
 import com.library.backend.MockBookRepository;
 import com.library.ui.components.BookGrid;
 import com.library.ui.components.SearchBar;
@@ -42,4 +41,5 @@ public class Books extends VerticalLayout {
         // add the top bar and the grid to the overall vertical layout
         add(toolbar, grid);
     }
+
 }

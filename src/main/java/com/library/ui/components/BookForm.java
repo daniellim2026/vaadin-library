@@ -49,32 +49,27 @@ public class BookForm extends VerticalLayout {
     }
 
     private void configureButtons() {
-        // style
+        // Styling
         saveBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         cancelBtn.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
-        // logic
-        saveBtn.addClickListener(event -> {
-            if (binder.writeBeanIfValid(book)) {
-                if(onSave != null) onSave.accept(book);
-            } else {
-                binder.validate(); // display error messages to user
-            }
-        });
-
-        cancelBtn.addClickListener(event -> {
+        // Logic
+        cancelBtn.addClickListener(e -> {
+            resetForm();
             if(onCancel != null) onCancel.run();
         });
+
+        saveBtn.addClickListener(e -> {
+            if (binder.writeBeanIfValid(book)) {
+                if(onSave != null) onSave.accept(book); // pass book to save listener
+            } else {
+                binder.validate();
+            }
+        });
     }
 
-    // public methods to be called from views or other components
-    public void resetForm() {
+    private void resetForm() {
         binder.readBean(book);
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-        resetForm();
     }
 
     public void addSaveListener(Consumer<Book> onSave) {
