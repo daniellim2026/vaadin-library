@@ -1,5 +1,6 @@
 package com.library.ui.layouts;
 
+import com.library.security.Roles;
 import com.library.ui.views.Login;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -70,7 +71,7 @@ public final class MainLayout extends AppLayout {
                 Button logout = new Button("Logout", click -> {
                     this.authContext.logout();
                 });
-                Span loggedInUser = new Span("Welcome " + user.getUsername());
+                Span loggedInUser = new Span("Welcome, " + user.getUsername());
                 return new HorizontalLayout(loggedInUser, logout);
             }).orElseGet(() -> {
                 Button login = new Button("Login", click -> {

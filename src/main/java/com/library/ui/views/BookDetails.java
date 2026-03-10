@@ -12,9 +12,10 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
-import org.atmosphere.interceptor.AtmosphereResourceStateRecovery;
+import jakarta.annotation.security.PermitAll;
 
 @Route("books")
+@PermitAll
 public class BookDetails extends VerticalLayout implements HasUrlParameter<Long> {
     private final MockBookRepository bookRepo;
 

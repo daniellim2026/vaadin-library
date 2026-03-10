@@ -68,7 +68,10 @@ public class BookForm extends VerticalLayout {
         });
     }
 
-    public void setBook(Book book) { this.book = book; }
+    public void setBook(Book book) {
+        this.book = book;
+        binder.readBean(book);
+    }
 
     public void resetForm() {
         binder.readBean(book);
