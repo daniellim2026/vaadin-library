@@ -27,5 +27,4 @@ public class BookGrid  extends Grid<Book> {
             StringUtils.containsIgnoreCase(book.getIsbn(), searchTerm)
         );
     }
-
 }

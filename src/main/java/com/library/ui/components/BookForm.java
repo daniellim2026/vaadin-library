@@ -11,39 +11,41 @@ import com.vaadin.flow.data.binder.Binder;
 
 import java.util.function.Consumer;
 
-
 public class BookForm extends VerticalLayout {
     private Book book;
     private Binder<Book> binder;
-    private final FormLayout formLayout = new FormLayout();
 
-    private Consumer<Book> onSave;
-    private Runnable onCancel;
+    private final FormLayout formLayout = new FormLayout();
     private final Button saveBtn = new Button("Save");
     private final Button cancelBtn = new Button("Cancel");
 
+    private Consumer<Book> onSave;
+    private Runnable onCancel;
+
     public BookForm() {
-        this.binder = new Binder<>(Book.class);
+        binder = new Binder<>(Book.class);
 
         TextField title = new TextField("Title");
         TextField author = new TextField("Author");
         TextField isbn = new TextField("ISBN");
 
         binder.forField(title)
-            .asRequired("Title cannot be empty")
-            .bind(Book::getTitle, Book::setTitle);
+                .asRequired()
+                .bind(Book::getTitle, Book::setTitle);
         binder.forField(author)
-            .asRequired("Author cannot be empty")
-            .bind(Book::getAuthor, Book::setAuthor);
+                .asRequired()
+                .bind(Book::getAuthor, Book::setAuthor);
         binder.forField(isbn)
-            .asRequired("ISBN cannot be empty")
-            .bind(Book::getIsbn, Book::setIsbn);
+                .asRequired()
+                .withValidator(value -> value.length() == 10, "ISBN must be 10 digits")
+                .bind(Book::getIsbn, Book::setIsbn);
 
-        // 1 column
-        formLayout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1));
+        formLayout.setResponsiveSteps(new FormLayout.ResponsiveStep("0",1));
+
         formLayout.add(title, author, isbn);
 
         configureButtons();
+
         add(formLayout, new HorizontalLayout(saveBtn, cancelBtn));
     }
 
@@ -67,7 +69,12 @@ public class BookForm extends VerticalLayout {
         });
     }
 
-    private void resetForm() {
+    public void setBook(Book book) {
+        this.book = book;
+        binder.readBean(book);
+    }
+
+    public void resetForm() {
         binder.readBean(book);
     }
 
@@ -81,13 +88,9 @@ public class BookForm extends VerticalLayout {
 
     public void setEditable(boolean isEditing) {
         binder.getFields().forEach(field -> field.setReadOnly(!isEditing));
+        saveBtn.setEnabled(isEditing);
         saveBtn.setVisible(isEditing);
+        cancelBtn.setEnabled(isEditing);
         cancelBtn.setVisible(isEditing);
     }
-
-    public void setBook(Book book) {
-        this.book = book;
-        binder.readBean(book);
-    }
-
 }

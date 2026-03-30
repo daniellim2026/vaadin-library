@@ -5,14 +5,10 @@ import com.library.backend.BookRepository;
 import com.library.security.Roles;
 import com.library.ui.components.BookForm;
 import com.library.ui.components.ViewToolbar;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
-import jakarta.annotation.security.RolesAllowed;
 
 @Route("books/new")
-@RolesAllowed(Roles.ADMIN)
 public class NewBook extends VerticalLayout {
     private final BookRepository bookRepo;
     private final Book book = new Book();
@@ -22,21 +18,17 @@ public class NewBook extends VerticalLayout {
     public NewBook(BookRepository bookRepo) {
         this.bookRepo = bookRepo;
 
-        bookForm.setBook(book);
-        bookForm.addSaveListener(this::saveBook);
-        bookForm.setEditable(true);
+        BookForm bookform = new BookForm();
+        bookform.setBook(new Book());
+        bookform.setEditable(true);
+        bookform.addSaveListener(this::saveBook);
+        bookform.addCancelListener(() -> getUI().ifPresent(ui -> ui.navigate("books")));
 
-        backBtn.addClickListener(e -> {
-            getUI().ifPresent(ui -> ui.navigate("books"));
-        });
-
-        add(new ViewToolbar("New Book", backBtn), bookForm);
-
+        add(new ViewToolbar("New Book"), bookform);
     }
 
     private void saveBook(Book book) {
         bookRepo.save(book);
-        getUI().ifPresent(ui -> ui.navigate("books?message=created"));
+        getUI().ifPresent(ui -> ui.navigate("books"));
     }
-
 }
