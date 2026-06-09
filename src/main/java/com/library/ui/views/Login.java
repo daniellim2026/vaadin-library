@@ -1,7 +1,9 @@
 package com.library.ui.views;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
@@ -9,7 +11,6 @@ import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-
 
 @Route("login")
 @PageTitle("Login")
@@ -21,25 +22,27 @@ public class Login extends VerticalLayout implements BeforeEnterObserver {
     public Login() {
         addClassName("login-view");
         setSizeFull();
-
         setJustifyContentMode(JustifyContentMode.CENTER);
         setAlignItems(Alignment.CENTER);
+
+        H2 heading = new H2("Welcome back");
+        heading.getStyle().set("margin-bottom", "0.5rem");
 
         login.setAction("login");
 
         Button signupBtn = new Button("Don't have an account? Sign up");
         signupBtn.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-        signupBtn.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate("signup")));
+        signupBtn.addClickListener(e -> UI.getCurrent().navigate("signup"));
 
-        add(login, signupBtn);
+        add(heading, login, signupBtn);
     }
 
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-        if(beforeEnterEvent.getLocation()
-                .getQueryParameters()
-                .getParameters()
-                .containsKey("error")) {
+        if (beforeEnterEvent.getLocation()
+            .getQueryParameters()
+            .getParameters()
+            .containsKey("error")) {
             login.setError(true);
         }
     }
