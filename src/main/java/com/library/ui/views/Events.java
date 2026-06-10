@@ -20,11 +20,11 @@ public class Events extends VerticalLayout implements BeforeEnterObserver {
         setPadding(true);
         setSpacing(false);
 
-        // Header
+
         H2 heading = new H2("All Events");
         heading.getStyle().set("margin-bottom", "0.5rem");
 
-        // Filters
+
         ComboBox<String> categoryFilter = new ComboBox<>("Category");
         categoryFilter.setItems("All", "Club meetup", "Study group", "Sports", "Workshop");
         categoryFilter.setValue("All");
@@ -43,7 +43,7 @@ public class Events extends VerticalLayout implements BeforeEnterObserver {
         filters.setAlignItems(Alignment.END);
         filters.getStyle().set("margin-bottom", "1rem");
 
-        // Events grid
+
         Div grid = new Div();
         grid.getStyle()
             .set("display", "grid")
@@ -51,7 +51,7 @@ public class Events extends VerticalLayout implements BeforeEnterObserver {
             .set("gap", "12px");
 
         grid.add(eventCard("Robotics Club Weekly", "Club meetup", "May 20 · Room 204", 1L));
-        grid.add(eventCard("Saints vs Riverside", "Sports", "May 22 · Main Field", 2L));
+        grid.add(eventCard("Saints vs VC", "Sports", "May 22 · Main Field", 2L));
         grid.add(eventCard("Resume Writing Workshop", "Workshop", "May 24 · Library B", 3L));
         grid.add(eventCard("Calculus Study Hall", "Study group", "May 25 · Room 101", 4L));
 

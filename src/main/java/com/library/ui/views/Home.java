@@ -37,7 +37,7 @@ public class Home extends VerticalLayout {
         HorizontalLayout heroBtns = new HorizontalLayout(browseBtn, signupBtn);
         heroBtns.setSpacing(true);
 
-        // Stats row
+
         Div statsRow = new Div();
         statsRow.getStyle()
             .set("display", "grid")
